@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Header from "./component/Header";
 import Footer from "./component/Footer";
-
+import ScrollToTop from "./component/ScrollToTop";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Course from "./pages/Course";
@@ -13,6 +13,7 @@ import Signup from "./pages/Signup";
 const App = () => {
   return (
     <>
+      <ScrollToTop />
       <Header />
 
       <Routes>

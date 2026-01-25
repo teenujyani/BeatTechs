@@ -1,17 +1,24 @@
-import React from "react";
+import { Routes, Route } from "react-router-dom";
 import Header from "./component/Header";
-import BgLayout from "./component/BgLayout";
 import Footer from "./component/Footer";
-import Hero from "./component/Hero";
-import Hero2 from "./component/Hero2";
-import SectionBg from "./component/Sectionbg";
+
 import Home from "./pages/Home";
+import About from "./pages/About";
+import Course from "./pages/Course";
+import Contact from "./pages/Contact";
 
 const App = () => {
   return (
     <>
       <Header />
-      <Home />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/courses" element={<Course />} />
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
+
       <Footer />
     </>
   );

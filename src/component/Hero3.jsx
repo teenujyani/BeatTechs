@@ -1,20 +1,62 @@
-import React from "react";
+import { useState } from "react";
+import { supabase } from "../supabaseClient";
 
 const Hero3 = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    college: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const { error } = await supabase.from("interest_forms").insert([
+      {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        college: formData.college,
+      },
+    ]);
+
+    if (error) {
+      console.error("Supabase error:", error);
+      alert(error.message);
+    } else {
+      alert("Interest submitted successfully!");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        college: "",
+      });
+    }
+  };
+
   return (
     <section className="px-10 py-16">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 items-center gap-10 text-white">
+        
         {/* Text */}
         <div className="ml-15 px-6 py-10">
           <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-            Learn From <br />
-            Our Experts
+            Learn From <br /> Our Experts
           </h1>
 
           <p className="mt-6 text-slate-300 max-w-md leading-relaxed">
-            Master your skills with the guidance from our experts. Learn
-            directly from qualified professionals who know what it takes to
-            succeed. Enroll for our courses now!
+            Master your skills with the guidance from our experts.
           </p>
         </div>
 
@@ -24,36 +66,56 @@ const Hero3 = () => {
             Send your interest
           </h2>
 
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <input
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               type="text"
               placeholder="Name"
-              className="w-full px-4 py-3 rounded-lg bg-slate-800 text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 rounded-lg bg-slate-800 outline-none"
+              required
             />
 
             <input
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               type="email"
               placeholder="Email"
-              className="w-full px-4 py-3 rounded-lg bg-slate-800 text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 rounded-lg bg-slate-800 outline-none"
+              required
             />
 
             <input
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
               type="tel"
-              placeholder="Phone (+91-1234567890)"
-              className="w-full px-4 py-3 rounded-lg bg-slate-800 text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Phone"
+              className="w-full px-4 py-3 rounded-lg bg-slate-800 outline-none"
             />
 
-            <select className="w-full px-4 py-3 rounded-lg bg-slate-800 text-slate-300 outline-none focus:ring-2 focus:ring-blue-500">
+            <select
+              name="subject"
+              value={formData.subject}
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-lg bg-slate-800 outline-none"
+              required
+            >
               <option value="">Select your subject</option>
-              <option>Web Development</option>
-              <option>Data Science</option>
-              <option>AI / ML</option>
+              <option value="Web Development">Web Development</option>
+              <option value="Data Science">Data Science</option>
+              <option value="AI / ML">AI / ML</option>
             </select>
 
             <input
+              name="college"
+              value={formData.college}
+              onChange={handleChange}
               type="text"
               placeholder="University / College"
-              className="w-full px-4 py-3 rounded-lg bg-slate-800 text-white placeholder-slate-400 outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-3 rounded-lg bg-slate-800 outline-none"
             />
 
             <button

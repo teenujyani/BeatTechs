@@ -18,91 +18,83 @@ const Signup = () => {
 
     setLoading(true);
 
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        data: {
-          name: name, // extra user data
-        },
+        data: { name },
       },
     });
 
     setLoading(false);
 
-    if (error) {
-      alert(error.message);
-    } else {
-      alert("Signup successful! Check your email to verify.");
-    }
+    if (error) alert(error.message);
+    else alert("Signup successful! Check your email to verify.");
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-[#050b3a] to-[#3a2a8f]">
-      <div className="bg-[#060b3c]/80 backdrop-blur-md p-10 rounded-xl w-full max-w-md text-white">
-        <h2 className="text-3xl font-bold mb-6 text-center">
-          Create Account
+      
+      {/* WHITE CARD */}
+      <div className="w-full max-w-md bg-white rounded-[32px] p-10 shadow-2xl">
+
+        {/* HEADING */}
+        <h2 className="text-3xl font-bold text-gray-900 leading-snug">
+          Create <br /> Account
         </h2>
+        <p className="text-sm text-gray-500 mt-2 mb-8">
+          Sign up to start learning
+        </p>
 
-        <form className="space-y-5" onSubmit={handleSignup}>
-          <div>
-            <label className="block mb-1 text-sm">Name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              placeholder="Your name"
-              className="w-full px-4 py-3 rounded-md bg-slate-800 outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
+        {/* FORM */}
+        <form onSubmit={handleSignup} className="space-y-4">
 
-          <div>
-            <label className="block mb-1 text-sm">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              className="w-full px-4 py-3 rounded-md bg-slate-800 outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
+          <input
+            type="text"
+            placeholder="Your Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full bg-gray-100 px-5 py-3 rounded-xl outline-none focus:ring-2 focus:ring-[#7dd3d8]"
+          />
 
-          <div>
-            <label className="block mb-1 text-sm">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-md bg-slate-800 outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
+          <input
+            type="email"
+            placeholder="Your Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full bg-gray-100 px-5 py-3 rounded-xl outline-none focus:ring-2 focus:ring-[#7dd3d8]"
+          />
 
-          <div>
-            <label className="block mb-1 text-sm">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-md bg-slate-800 outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
+          <input
+            type="password"
+            placeholder="Your Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full bg-gray-100 px-5 py-3 rounded-xl outline-none focus:ring-2 focus:ring-[#7dd3d8]"
+          />
 
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="w-full bg-gray-100 px-5 py-3 rounded-xl outline-none focus:ring-2 focus:ring-[#7dd3d8]"
+          />
+
+          {/* SAME BUTTON COLOR AS LOGIN */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-500 hover:bg-blue-600 py-3 rounded-full font-semibold transition"
+            className="w-full bg-[#7dd3d8] text-gray-900 py-3 rounded-full font-semibold hover:opacity-90 transition"
           >
             {loading ? "Creating account..." : "Sign Up"}
           </button>
         </form>
 
-        <p className="text-center text-sm mt-6 text-slate-300">
+        {/* FOOTER */}
+        <p className="text-center text-sm text-gray-500 mt-6">
           Already have an account?{" "}
-          <a href="/login" className="text-blue-400 hover:underline">
+          <a href="/login" className="text-[#7dd3d8] font-medium">
             Login
           </a>
         </p>

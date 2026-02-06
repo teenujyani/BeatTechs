@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { supabase } from "../supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,33 +31,32 @@ const Signup = () => {
 
     setLoading(false);
 
-    if (error) alert(error.message);
-    else alert("Signup successful! Check your email to verify.");
+    if (error) {
+      alert(error.message);
+    } else {
+      navigate("/dashboard"); // ✅ redirect
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-[#050b3a] to-[#3a2a8f]">
-      
-      {/* WHITE CARD */}
       <div className="w-full max-w-md bg-white rounded-[32px] p-10 shadow-2xl">
-
-        {/* HEADING */}
-        <h2 className="text-3xl font-bold text-gray-900 leading-snug">
+        <h2 className="text-3xl font-bold text-gray-900">
           Create <br /> Account
         </h2>
+
         <p className="text-sm text-gray-500 mt-2 mb-8">
           Sign up to start learning
         </p>
 
-        {/* FORM */}
         <form onSubmit={handleSignup} className="space-y-4">
-
           <input
             type="text"
             placeholder="Your Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full bg-gray-100 px-5 py-3 rounded-xl outline-none focus:ring-2 focus:ring-[#7dd3d8]"
+            className="w-full bg-gray-100 px-5 py-3 rounded-xl"
+            required
           />
 
           <input
@@ -62,7 +64,8 @@ const Signup = () => {
             placeholder="Your Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full bg-gray-100 px-5 py-3 rounded-xl outline-none focus:ring-2 focus:ring-[#7dd3d8]"
+            className="w-full bg-gray-100 px-5 py-3 rounded-xl"
+            required
           />
 
           <input
@@ -70,7 +73,8 @@ const Signup = () => {
             placeholder="Your Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full bg-gray-100 px-5 py-3 rounded-xl outline-none focus:ring-2 focus:ring-[#7dd3d8]"
+            className="w-full bg-gray-100 px-5 py-3 rounded-xl"
+            required
           />
 
           <input
@@ -78,20 +82,19 @@ const Signup = () => {
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full bg-gray-100 px-5 py-3 rounded-xl outline-none focus:ring-2 focus:ring-[#7dd3d8]"
+            className="w-full bg-gray-100 px-5 py-3 rounded-xl"
+            required
           />
 
-          {/* SAME BUTTON COLOR AS LOGIN */}
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#7dd3d8] text-gray-900 py-3 rounded-full font-semibold hover:opacity-90 transition"
+            className="w-full bg-[#7dd3d8] py-3 rounded-full font-semibold text-gray-900"
           >
             {loading ? "Creating account..." : "Sign Up"}
           </button>
         </form>
 
-        {/* FOOTER */}
         <p className="text-center text-sm text-gray-500 mt-6">
           Already have an account?{" "}
           <a href="/login" className="text-[#7dd3d8] font-medium">

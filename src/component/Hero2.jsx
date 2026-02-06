@@ -1,7 +1,9 @@
 import React from "react";
 import hero2Img from "../assets/Hero2image.svg";
+import { useNavigate } from "react-router-dom";
 
 const Hero2 = () => {
+  const navigate = useNavigate();
   return (
     <section className="px-10 py-24">
       <div className="
@@ -30,7 +32,8 @@ const Hero2 = () => {
             Learn from top mentors, practice with real projects, and earn certificates that matter.
           </p>
 
-          <button className="mt-8 bg-indigo-400 text-white px-10 py-3 rounded-full hover:bg-indigo-500 transition">
+          <button onClick={()=>navigate("/courses")}
+           className="mt-8 bg-indigo-400 text-white px-10 py-3 rounded-full hover:bg-indigo-500 transition cursor-pointer">
             Courses
           </button>
         </div>

@@ -42,7 +42,6 @@ const Hero3 = () => {
           text-black dark:text-white
         "
       >
-        {/* LEFT TEXT — UNCHANGED */}
         <div className="ml-15 px-6 py-10">
           <h1 className="text-5xl md:text-6xl font-bold leading-tight">
             Learn From <br /> Our Experts
@@ -52,9 +51,7 @@ const Hero3 = () => {
             Master your skills with the guidance from our experts.
           </p>
         </div>
-
-        {/* FORM CARD */}
-        <div className="w-full max-w-md bg-white rounded-[32px] p-10 shadow-2xl">
+        <div className="w-full max-w-md bg-white rounded-4xl p-10 shadow-2xl">
           <h2 className="text-3xl font-bold text-gray-900 mb-2">
             Send your interest
           </h2>

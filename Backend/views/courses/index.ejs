@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BeatTechs</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h1>Courses</h1>
+  <div class="courses">
+  <%for(course of allCourses){%>
+    <div class="course">
+      <img src="<%=course.image%>" loading="lazy" height="200px" alt="img">
+       <h3><%=course.title%></h3>
+     <h4><%=course.subtitle%></h4>
+     <p><%=course.description%></p>
+     <p> &#8377;<%=course.price.toLocaleString("en-IN")%></p>
+     <form action="/courses/<%=course.id%>/edit" class="edit" method="GET">
+      <button>Edit</button>
+     </form>
+     <form action="/courses/<%=course.id%>/delete/?_method=DELETE" class="delete" method="POST">
+      <button>Delete</button>
+     </form>
+    </div>
+  <%}%>
+  </div>
+
+  <form action="/courses/new" method="GET">
+    <button class="btn">Add new course</button>
+  </form>
+
+
+</body>
+</html>

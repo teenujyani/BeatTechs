@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BeatTechs</title>
+  <link rel="stylesheet" href="/css/edit.css">
+</head>
+<body>
+  <h1>Edit for course having course id <%=course.id%></h1>
+  <div class="edit-form">
+  <form action="/course/<%=course.id%>/?_method=PATCH" method="post">
+    <h3>Edit title</h3>
+     <textarea name="title"><%=course.title%></textarea>
+     <h3>Edit subtitle</h3>
+     <textarea name="subtitle"><%=course.subtitle%></textarea>
+     <h3>Edit description</h3>
+     <textarea name="description"><%=course.description%></textarea>
+     <h3>Edit price</h3>
+     <textarea name="price"><%=course.price%></textarea>
+      <h3>Edit image</h3>
+     <textarea name="image"><%=course.image%></textarea>
+     <button>submit</button>
+ </div>
+
+  </form>
+  
+</body>
+</html>

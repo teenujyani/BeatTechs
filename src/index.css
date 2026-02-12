@@ -1,0 +1,39 @@
+@import "tailwindcss";
+.course-card {
+  background: linear-gradient(
+    135deg,
+    rgba(88, 63, 188, 0.45),
+    rgba(38, 29, 92, 0.55)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow:
+    0 0 40px rgba(124, 95, 255, 0.15);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-6px);
+  box-shadow:
+    0 0 60px rgba(124, 95, 255, 0.35);
+}
+
+.enroll-btn {
+  background: linear-gradient(
+    135deg,
+    #7dd3d8,
+    #5fb3ff
+  );
+  color: #000;
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.enroll-btn:hover {
+  opacity: 0.85;
+}
+

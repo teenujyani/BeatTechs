@@ -1,4 +1,37 @@
 @import "tailwindcss";
+
+/* ================== DARK THEME ONLY ================== */
+:root {
+  --bg-primary: #050b3a;
+  --bg-secondary: #0b1250;
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --accent: #7dd3d8;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Dark Mode - Always Applied */
+html {
+  background: linear-gradient(135deg, #050b3a 0%, #3a2a8f 100%);
+}
+
+body {
+  background: linear-gradient(135deg, #050b3a 0%, #3a2a8f 100%);
+}
+
+/* ================== COURSE CARDS ================== */
 .course-card {
   background: linear-gradient(
     135deg,
@@ -36,4 +69,5 @@
 .enroll-btn:hover {
   opacity: 0.85;
 }
+
 

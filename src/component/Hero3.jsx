@@ -51,11 +51,11 @@ const Hero3 = () => {
             Master your skills with the guidance from our experts.
           </p>
         </div>
-        <div className="w-full max-w-md bg-white rounded-4xl p-10 shadow-2xl">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">
+        <div className="w-full max-w-md bg-[#0b1250] rounded-4xl p-10 shadow-2xl">
+          <h2 className="text-3xl font-bold text-white mb-2">
             Send your interest
           </h2>
-          <p className="text-sm text-gray-500 mb-8">
+          <p className="text-sm text-gray-400 mb-8">
             We’ll get back to you shortly
           </p>
 
@@ -65,8 +65,8 @@ const Hero3 = () => {
               value={formData.name}
               onChange={handleChange}
               placeholder="Your Name"
-              className="w-full bg-gray-100 px-5 py-3 rounded-xl outline-none
-                         text-gray-800 placeholder-gray-500
+              className="w-full bg-gray-900 text-white px-5 py-3 rounded-xl outline-none
+                         placeholder-gray-500
                          focus:ring-2 focus:ring-[#7dd3d8]"
               required
             />
@@ -77,8 +77,8 @@ const Hero3 = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Your Email"
-              className="w-full bg-gray-100 px-5 py-3 rounded-xl outline-none
-                         text-gray-800 placeholder-gray-500
+              className="w-full bg-gray-900 text-white px-5 py-3 rounded-xl outline-none
+                         placeholder-gray-500
                          focus:ring-2 focus:ring-[#7dd3d8]"
               required
             />
@@ -88,8 +88,8 @@ const Hero3 = () => {
               value={formData.phone}
               onChange={handleChange}
               placeholder="Phone Number"
-              className="w-full bg-gray-100 px-5 py-3 rounded-xl outline-none
-                         text-gray-800 placeholder-gray-500
+              className="w-full bg-gray-900 text-white px-5 py-3 rounded-xl outline-none
+                         placeholder-gray-500
                          focus:ring-2 focus:ring-[#7dd3d8]"
             />
 
@@ -97,15 +97,14 @@ const Hero3 = () => {
               name="subject"
               value={formData.subject}
               onChange={handleChange}
-              className="w-full bg-gray-100 px-5 py-3 rounded-xl outline-none
-                         text-gray-800
+              className="w-full bg-gray-900 text-white px-5 py-3 rounded-xl outline-none
                          focus:ring-2 focus:ring-[#7dd3d8]"
               required
             >
-              <option value="">Select your subject</option>
-              <option>Web Development</option>
-              <option>Data Science</option>
-              <option>AI / ML</option>
+              <option value="" className="bg-gray-900 text-gray-400">Select your subject</option>
+              <option className="bg-gray-900 text-white">Web Development</option>
+              <option className="bg-gray-900 text-white">Data Science</option>
+              <option className="bg-gray-900 text-white">AI / ML</option>
             </select>
 
             <input
@@ -113,14 +112,14 @@ const Hero3 = () => {
               value={formData.college}
               onChange={handleChange}
               placeholder="University / College"
-              className="w-full bg-gray-100 px-5 py-3 rounded-xl outline-none
-                         text-gray-800 placeholder-gray-500
+              className="w-full bg-gray-900 text-white px-5 py-3 rounded-xl outline-none
+                         placeholder-gray-500
                          focus:ring-2 focus:ring-[#7dd3d8]"
             />
 
             <button
               type="submit"
-              className="w-full mt-4 bg-[#7dd3d8] text-gray-900 py-3 rounded-full font-semibold hover:opacity-90 transition"
+              className="w-full mt-4 bg-[#7dd3d8] text-gray-900 py-3 rounded-full font-semibold hover:opacity-90 disabled:opacity-50 transition"
             >
               Send Interest
             </button>

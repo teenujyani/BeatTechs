@@ -4,7 +4,7 @@ import DashboardRight from "./DashboardRight";
 
 const Dashboard = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#050b3a] to-[#3a2a8f]">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-[#050b3a] dark:to-[#3a2a8f] transition-colors duration-300">
 
       {/* GRID LAYOUT */}
       <div className="flex">

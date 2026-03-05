@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import nightModeIcon from "../assets/light-mode.png";
 import { useAuth } from "../context/AuthContext";
 import { supabase } from "../supabaseClient";
 
@@ -8,25 +7,7 @@ const Header = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const dropdownRef = useRef(null);
-
-  const [isDark, setIsDark] = useState(
-    localStorage.getItem("theme") === "dark"
-  );
   const [open, setOpen] = useState(false);
-
-  /* ================= THEME ================= */
-  useEffect(() => {
-    const root = document.documentElement;
-    if (isDark) {
-      root.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      root.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [isDark]);
-
-  const toggleTheme = () => setIsDark((prev) => !prev);
 
   /* ================= LOGOUT ================= */
   const handleLogout = async () => {
@@ -56,28 +37,28 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full flex justify-between items-center px-10 py-4 sticky top-0 z-50 bg-[#060b3c]/80 backdrop-blur-md">
+    <header className="w-full flex justify-between items-center px-10 py-4 sticky top-0 z-50 bg-[#060b3c]/90 dark:bg-[#060b3c]/80 backdrop-blur-md transition-colors duration-300">
 
       {/* LOGO → HOME */}
       <NavLink
         to="/"
-        className="text-3xl font-bold text-white tracking-wide"
+        className="text-3xl font-bold text-gray-900 dark:text-white tracking-wide"
       >
         EduTech
       </NavLink>
 
       {/* NAV LINKS */}
       <nav className="flex gap-8 text-lg">
-        <NavLink to="/" className="text-white hover:text-[#7dd3d8]">
+        <NavLink to="/" className="text-gray-900 dark:text-white hover:text-[#7dd3d8]">
           Home
         </NavLink>
-        <NavLink to="/about" className="text-white hover:text-[#7dd3d8]">
+        <NavLink to="/about" className="text-gray-900 dark:text-white hover:text-[#7dd3d8]">
           About
         </NavLink>
-        <NavLink to="/courses" className="text-white hover:text-[#7dd3d8]">
+        <NavLink to="/courses" className="text-gray-900 dark:text-white hover:text-[#7dd3d8]">
           Courses
         </NavLink>
-        <NavLink to="/contact" className="text-white hover:text-[#7dd3d8]">
+        <NavLink to="/contact" className="text-gray-900 dark:text-white hover:text-[#7dd3d8]">
           Contact
         </NavLink>
       </nav>
@@ -88,12 +69,12 @@ const Header = () => {
         {/* NOT LOGGED IN */}
         {!user && (
           <>
-            <NavLink to="/login" className="text-white hover:text-[#7dd3d8]">
+            <NavLink to="/login" className="text-gray-900 dark:text-white hover:text-[#7dd3d8]">
               Login
             </NavLink>
             <NavLink
               to="/signup"
-              className="px-4 py-2 rounded-full bg-[#7dd3d8] text-[#050b3a]"
+              className="px-4 py-2 rounded-full bg-[#7dd3d8] text-[#050b3a] hover:opacity-90 transition"
             >
               Sign up
             </NavLink>
@@ -139,17 +120,7 @@ const Header = () => {
           </div>
         )}
 
-        {/* THEME TOGGLE */}
-        <button
-          onClick={toggleTheme}
-          className="p-2 rounded-full hover:bg-white/10 transition"
-        >
-          <img
-            src={nightModeIcon}
-            alt="Toggle theme"
-            className="w-6 h-6"
-          />
-        </button>
+        {/* THEME TOGGLE - REMOVED (Dark theme only) */}
       </div>
     </header>
   );

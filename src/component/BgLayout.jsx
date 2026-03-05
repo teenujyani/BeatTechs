@@ -15,7 +15,8 @@ const BgLayout = ({ children }) => {
         src={whitebgCircle}
         alt="Background decoration"
         className="
-          absolute bottom-0 -right-10 w-125 h-125 blur-2xl opacity-80
+          absolute bottom-0 -right-10 w-125 h-125 blur-2xl 
+          opacity-30 dark:opacity-80
           pointer-events-none
         "
       />
@@ -25,7 +26,8 @@ const BgLayout = ({ children }) => {
         src={whitebgCircle}
         alt="Background decoration"
         className="
-          absolute top-5 -left-35 w-125 h-125 blur-2xl opacity-80
+          absolute top-5 -left-35 w-125 h-125 blur-2xl 
+          opacity-30 dark:opacity-80
           pointer-events-none
         "
       />

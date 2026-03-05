@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import BgLayout from "../component/BgLayout";
 import { courses, workshops } from "../data/courseData";
@@ -7,9 +7,42 @@ const Course = () => {
   const courseRef = useRef(null);
   const workshopRef = useRef(null);
   const navigate = useNavigate();
+  const [showPurchaseOptions, setShowPurchaseOptions] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [modules, setModules] = useState([]);
+  const [loadingModules, setLoadingModules] = useState(false);
 
-  const handleEnroll = (item) => {
-    navigate("/checkout", { state: item });
+  const handleEnroll = async (item) => {
+    setSelectedItem(item);
+    setShowPurchaseOptions(true);
+    setLoadingModules(true);
+    // Fetch modules/tests for this course/workshop
+    try {
+      const res = await fetch(`http://localhost:5000/api/modules/${item.id}`);
+      const data = await res.json();
+      setModules(data.data || []);
+    } catch (err) {
+      setModules([]);
+    }
+    setLoadingModules(false);
+  };
+
+  const handlePurchase = (purchaseItem, type = "course") => {
+    // Go to checkout with correct item
+    navigate("/checkout", { state: {
+      ...purchaseItem,
+      type,
+      id: purchaseItem.id || purchaseItem.module_id || purchaseItem.test_id,
+      title: purchaseItem.title || purchaseItem.module_title || purchaseItem.test_title,
+      price: purchaseItem.price || purchaseItem.module_price || purchaseItem.test_price,
+      parent_course_id: selectedItem.id
+    }});
+    setShowPurchaseOptions(false);
+  };
+
+  const handlePurchaseAll = () => {
+    // Purchase whole course (course + modules + tests)
+    handlePurchase(selectedItem, "course");
   };
 
   return (
@@ -120,6 +153,74 @@ const Course = () => {
             ))}
           </div>
         </div>
+
+        {/* Modal for purchase options */}
+        {showPurchaseOptions && selectedItem && (
+          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+            <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 w-full max-w-lg shadow-2xl relative">
+              <button
+                className="absolute top-4 right-4 text-gray-400 hover:text-gray-700"
+                onClick={() => setShowPurchaseOptions(false)}
+              >
+                &times;
+              </button>
+              <h2 className="text-2xl font-bold mb-4">Choose What to Purchase</h2>
+              <p className="mb-2 text-gray-600 dark:text-gray-300">{selectedItem.title}</p>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold">Full Course</span>
+                  <span className="font-semibold">{selectedItem.price}</span>
+                  <button
+                    className="bg-[#7dd3d8] px-4 py-2 rounded-full font-semibold hover:opacity-90"
+                    onClick={handlePurchaseAll}
+                  >
+                    Purchase Course
+                  </button>
+                </div>
+                {loadingModules ? (
+                  <div className="text-center py-4">Loading modules/tests...</div>
+                ) : (
+                  <>
+                    {modules.filter(m => m.module_type === "module").length > 0 && (
+                      <div>
+                        <h3 className="font-semibold mb-2">Modules</h3>
+                        {modules.filter(m => m.module_type === "module").map((mod) => (
+                          <div key={mod.id} className="flex items-center justify-between mb-2">
+                            <span>{mod.title}</span>
+                            <span>{mod.module_price || "₹499"}</span>
+                            <button
+                              className="bg-[#7dd3d8] px-3 py-1 rounded-full font-semibold hover:opacity-90"
+                              onClick={() => handlePurchase(mod, "module")}
+                            >
+                              Purchase Module
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {modules.filter(m => m.module_type === "test").length > 0 && (
+                      <div>
+                        <h3 className="font-semibold mb-2">Tests / Quizzes</h3>
+                        {modules.filter(m => m.module_type === "test").map((test) => (
+                          <div key={test.id} className="flex items-center justify-between mb-2">
+                            <span>{test.title}</span>
+                            <span>{test.test_price || "₹299"}</span>
+                            <button
+                              className="bg-[#7dd3d8] px-3 py-1 rounded-full font-semibold hover:opacity-90"
+                              onClick={() => handlePurchase(test, "test")}
+                            >
+                              Purchase Test
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
 
       </section>
     </BgLayout>

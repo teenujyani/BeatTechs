@@ -1,11 +1,15 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import BgLayout from "../component/BgLayout";
+import { useAuth } from "../context/AuthContext";
+import { supabase } from "../supabaseClient";
 
-const stripePromise = loadStripe("pk_test_51Sze1ZLbXilQKU3CT24MSpriwsptkNuDpPknXqff0t4QBYlSKitAHccqvmZRrmVWI0tHREXF6Nxz3dCmZ8CAZz7W00p62VRiUj");
+const stripePromise = loadStripe("pk_test_51T5RtuDOjuBh0wWay1Otmo2X20Iv1XlKmhhkMcaAol9ItvWQ5blwouUjeor8kKYEloRoXZJ1U0DTAygkspZeAEQW00Sje5yjP6");
 
 const Checkout = () => {
   const { state: course } = useLocation();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   if (!course) {
     return (
@@ -18,32 +22,55 @@ const Checkout = () => {
   }
 
   const handlePayment = async () => {
-    const response = await fetch("http://localhost:5000/create-checkout-session", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        title: course.title,
-        price: parseInt(course.price.replace(/[^0-9]/g, ""))
-      })
-    });
+    // Check if user is logged in
+    if (!user) {
+      navigate("/login", { state: { from: "/checkout", course } });
+      return;
+    }
 
-    const data = await response.json();
+    try {
+      const response = await fetch("http://localhost:5000/create-checkout-session", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          title: course.title,
+          price: parseInt(course.price.replace(/[^0-9]/g, "")),
+          userId: user.id,
+          userEmail: user.email,
+          courseType: course.type || 'course',
+          itemId: course.id || course.title // Pass course ID
+        })
+      });
 
-    const stripe = await stripePromise;
-    await stripe.redirectToCheckout({
-      sessionId: data.id
-    });
+      const data = await response.json();
+
+      if (!data.id) {
+        throw new Error("Failed to create checkout session");
+      }
+
+      const stripe = await stripePromise;
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: data.id
+      });
+
+      if (error) {
+        throw error;
+      }
+    } catch (error) {
+      console.error("Payment error:", error);
+      alert("Payment failed. Please try again.");
+    }
   };
 
   return (
     <BgLayout>
-      <section className="min-h-screen flex items-center justify-center text-white px-6">
-        <div className="bg-white text-black rounded-2xl p-8 w-[400px] shadow-2xl">
+      <section className="min-h-screen flex items-center justify-center px-6">
+        <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-2xl p-8 w-[400px] shadow-2xl">
           <h2 className="text-2xl font-bold mb-4">{course.title}</h2>
-          <p className="mb-4">{course.desc}</p>
-          <p className="font-semibold text-lg mb-6">{course.price}</p>
+          <p className="mb-4 text-gray-600 dark:text-gray-300">{course.desc}</p>
+          <p className="font-semibold text-lg mb-6 text-gray-900 dark:text-white">{course.price}</p>
 
           <button
             onClick={handlePayment}
